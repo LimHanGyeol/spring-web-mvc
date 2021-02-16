@@ -1,12 +1,16 @@
-package com.example.springmvc.service;
+package com.example.springmvc.event.service;
 
-import com.example.springmvc.model.Event;
+import com.example.springmvc.event.domain.Event;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Spring Web Mvc
+ * 스프링 MVC 소개
+ * 높은 결합도와 낮은 의존도
+ */
 @Service
 public class EventService {
 
@@ -25,7 +29,7 @@ public class EventService {
                 .endDateTime(LocalDateTime.of(2020,3,27,17,30,0))
                 .build();
 
-        return Arrays.asList(event1, event2);
+        return List.of(event1, event2);
                 
     }
 }

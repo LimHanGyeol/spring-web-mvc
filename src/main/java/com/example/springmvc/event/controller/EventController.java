@@ -1,18 +1,20 @@
-package com.example.springmvc.controller;
+package com.example.springmvc.event.controller;
 
-import com.example.springmvc.service.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.springmvc.event.service.EventService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
+/**
+ * Spring Web Mvc
+ * 스프링 MVC 소개
+ */
+@RequiredArgsConstructor
 @Controller
 public class EventController {
 
-    @Autowired
-    EventService eventService;
+    private final EventService eventService;
 
     @GetMapping("/events")
     public String events(Model model) {
