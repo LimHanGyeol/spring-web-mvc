@@ -5,6 +5,16 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
 
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>com.tommy.AppConfig</param-value>
+  </context-param>
+
   <filter>
     <filter-name>myFilter</filter-name>
     <filter-class>com.tommy.MyFilter</filter-class>
@@ -16,8 +26,12 @@
   </filter-mapping>
 
   <listener>
-    <listener-class>com.tommy.MyListener</listener-class>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+
+<!--  <listener>-->
+<!--    <listener-class>com.tommy.MyListener</listener-class>-->
+<!--  </listener>-->
   
   <servlet>
     <servlet-name>hello</servlet-name>
