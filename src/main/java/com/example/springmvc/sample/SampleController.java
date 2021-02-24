@@ -19,7 +19,7 @@ public class SampleController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<String> hello2(@RequestParam("name") Person person) {
+    public ResponseEntity<String> hello2(@RequestParam("id") Person person) {
         return ResponseEntity.ok().body(String.format("hello %s", person.getName()));
     }
 

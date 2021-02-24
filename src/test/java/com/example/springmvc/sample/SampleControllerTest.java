@@ -3,25 +3,28 @@ package com.example.springmvc.sample;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Spring Web Mvc
- * WebMvcConfigurer 1부 Formatter
+ * WebMvcConfigurer 1부 Formatter, Domain Class Converter
  */
 //@WebMvcTest(SampleController.class)
-@SpringBootTest
 @AutoConfigureMockMvc
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class SampleControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private PersonRepository personRepository;
 
     @Test
     void hello() throws Exception {
@@ -32,9 +35,14 @@ class SampleControllerTest {
 
     @Test
     void hello2() throws Exception {
+        Person person = new Person("hangyeol");
+        Person savedPerson = personRepository.save(person);
+
         mockMvc.perform(get("/user")
-                .param("name", "hangyeol"))
+                .param("id", savedPerson.getId().toString()))
                 .andDo(print())
+                .andExpect(status().isOk())
                 .andExpect(content().string("hello hangyeol"));
+
     }
 }

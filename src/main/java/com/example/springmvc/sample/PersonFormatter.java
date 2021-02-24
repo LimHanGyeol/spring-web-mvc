@@ -10,7 +10,7 @@ import java.util.Locale;
  * Spring Web Mvc
  * WebMvcConfigurer 1부 Formatter
  */
-@Component
+// @Component
 public class PersonFormatter implements Formatter<Person> {
 
     @Override
