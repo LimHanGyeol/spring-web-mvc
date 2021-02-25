@@ -1,5 +1,6 @@
 package com.example.springmvc.sample;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -27,6 +29,9 @@ class SampleControllerTest {
 
     @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     void hello() throws Exception {
@@ -68,12 +73,26 @@ class SampleControllerTest {
     }
 
     @Test
-    @DisplayName("RequestBody Test")
+    @DisplayName("RequestBody String Test")
     void stringMessageRequestBody() throws Exception {
         mockMvc.perform(get("/message")
                 .content("hello"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("hello"));
+    }
+
+    @Test
+    @DisplayName("RequestBody Json Test")
+    void personJsonMessageRequestBody() throws Exception {
+        Person person = new Person(1L, "hangyeol");
+        String jsonString = objectMapper.writeValueAsString(person);
+
+        mockMvc.perform(get("/jsonMessage")
+                .contentType(MediaType.APPLICATION_JSON) // 내가 요청으로 보내는 데이터의 타입
+                .accept(MediaType.APPLICATION_JSON) // 요청에 대한 응답으로 해당 타입의 데이터를 원한다.
+                .content(jsonString))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

@@ -25,4 +25,9 @@ public class SampleController {
         return ResponseEntity.ok().body(body);
     }
 
+    @GetMapping("/jsonMessage")
+    public ResponseEntity<Person> jsonMessage(@RequestBody Person person) {
+        return ResponseEntity.ok().body(person);
+    }
+
 }
