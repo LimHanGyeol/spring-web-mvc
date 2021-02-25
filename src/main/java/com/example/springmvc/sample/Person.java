@@ -4,11 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Spring Web Mvc
- * WebMvcConfigurer 1부 Formatter, , Domain Class Converter
+ * WebMvcConfigurer 1부 Formatter, , Domain Class Converter, Http Message Converter
  */
+@XmlRootElement
 @Entity
 public class Person {
 

@@ -2,10 +2,13 @@ package com.example.springmvc.config;
 
 import com.example.springmvc.config.AnotherInterceptor;
 import com.example.springmvc.config.GreetingInterceptor;
+import com.example.springmvc.sample.Person;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.CacheControl;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -15,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Spring Web Mvc
- * WebMvcConfigurer 1부 Formatter
+ * WebMvcConfigurer 1부 Formatter, HTTP Message Converter
  * Spring Boot 에서는 이런 설정 클래스를 만들지 않아도 된다.
  * Formatter 를 Bean 으로 만들면 자동으로 Formatter 추가를 해준다.
  * Interceptor 의 Order 를 정해주지 않으면 선언한 순서대로 적용이 된다.
@@ -58,4 +61,11 @@ public class WebConfig implements WebMvcConfigurer {
     // @Override
     // public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
     // }
+
+    @Bean
+    public Jaxb2Marshaller jaxb2Marshaller() {
+        Jaxb2Marshaller jaxb2Marshaller = new Jaxb2Marshaller();
+        jaxb2Marshaller.setPackagesToScan(Person.class.getPackageName());
+        return jaxb2Marshaller;
+    }
 }

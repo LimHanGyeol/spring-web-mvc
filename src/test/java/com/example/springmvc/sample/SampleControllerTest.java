@@ -9,7 +9,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.test.web.servlet.MockMvc;
+
+import javax.xml.transform.stream.StreamResult;
+import java.io.StringWriter;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -32,6 +36,9 @@ class SampleControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private Jaxb2Marshaller marshaller;
 
     @Test
     void hello() throws Exception {
@@ -93,6 +100,27 @@ class SampleControllerTest {
                 .accept(MediaType.APPLICATION_JSON) // 요청에 대한 응답으로 해당 타입의 데이터를 원한다.
                 .content(jsonString))
                 .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.name").value("hangyeol"));
+    }
+
+    @Test
+    @DisplayName("RequestBody Xml Test")
+    void personXmlMessageRequestBody() throws Exception {
+        Person person = new Person(1L, "hangyeol");
+
+        StringWriter stringWriter = new StringWriter();
+        marshaller.marshal(person, new StreamResult(stringWriter));
+        String xmlString = stringWriter.toString();
+
+        mockMvc.perform(get("/jsonMessage")
+                .contentType(MediaType.APPLICATION_XML) // 내가 요청으로 보내는 데이터의 타입
+                .accept(MediaType.APPLICATION_XML) // 요청에 대한 응답으로 해당 타입의 데이터를 원한다.
+                .content(xmlString))
+                .andDo(print())
                 .andExpect(status().isOk());
+//                .andExpect(xpath("person/name").string("hangyeol"))
+//                .andExpect(xpath("person/id").string("1"));
     }
 }
