@@ -5,10 +5,12 @@ import com.example.springmvc.config.GreetingInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.CacheControl;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -44,4 +46,16 @@ public class WebConfig implements WebMvcConfigurer {
                 // .addResolver() // 어떤 요청에 해당하는 Resource 탐색
                 // .addTransformer() // 응답으로 내보낼 리소스를 변경하는 방법
     }
+
+    // 이걸 사용하면 설정한 컨버터를 사용할 수 있지만, 기본으로 설정되어있는 컨버터 들은 사용을 못한다.
+    // @Override
+    // public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+    // }
+
+    // 기본 컨버터를 유지 시키면서 새로운 컨버터를 설정할 경우 사용한다.
+    // 하지만 이렇게 수동으로 추가할일이 많지는 않을 것이다.
+    // Maven 에서 의존성을 추가하여 컨버터를 이용하는 방법이 가장 많이 사용될 것이다.
+    // @Override
+    // public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+    // }
 }
