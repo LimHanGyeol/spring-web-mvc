@@ -8,12 +8,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
  * Spring MVC 활용
- * 요청 매핑하기 HTTP Method
+ * 요청 매핑하기 HTTP Method, URI Pattern
  */
 @WebMvcTest(SampleController.class)
 class SampleControllerTest {
@@ -26,7 +25,9 @@ class SampleControllerTest {
         mockMvc.perform(get("/hello"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string("hello"));
+                .andExpect(content().string("hello"))
+                .andExpect(handler().handlerType(SampleController.class))
+                .andExpect(handler().methodName("hello"));
     }
 
     @Test
@@ -34,6 +35,14 @@ class SampleControllerTest {
         mockMvc.perform(put("/hello"))
                 .andDo(print())
                 .andExpect(status().isMethodNotAllowed());
+    }
+
+    @Test
+    void hello_regex() throws Exception {
+        mockMvc.perform(get("/hangyeol"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("hello hangyeol"));
     }
 
 }
