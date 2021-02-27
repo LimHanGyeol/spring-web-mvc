@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
  * WebMvcConfigurer 1부 Formatter, HTTP Message Converter
  */
 @RestController
-public class SampleController {
+public class PersonController {
 
     @GetMapping("/hello/{id}")
     public ResponseEntity<String> hello(@PathVariable("id") Person person) {
