@@ -3,6 +3,7 @@ package com.example.springmvc.sample;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -12,7 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Spring MVC 활용
- * 요청 매핑하기 HTTP Method, URI Pattern
+ * 요청 매핑하기 HTTP Method, URI Pattern, Content-Type, Accept
  */
 @WebMvcTest(SampleController.class)
 class SampleControllerTest {
@@ -22,12 +23,12 @@ class SampleControllerTest {
 
     @Test
     void hello() throws Exception {
-        mockMvc.perform(get("/hello"))
+        mockMvc.perform(get("/hello")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .accept(MediaType.APPLICATION_JSON_VALUE))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string("hello"))
-                .andExpect(handler().handlerType(SampleController.class))
-                .andExpect(handler().methodName("hello"));
+                .andExpect(content().string("hello"));
     }
 
     @Test
@@ -35,14 +36,16 @@ class SampleControllerTest {
         mockMvc.perform(put("/hello"))
                 .andDo(print())
                 .andExpect(status().isMethodNotAllowed());
+        // .andExpect(handler().handlerType(SampleController.class))
+        // .andExpect(handler().methodName("hello"));
     }
 
-    @Test
-    void hello_regex() throws Exception {
-        mockMvc.perform(get("/hangyeol"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("hello hangyeol"));
-    }
+//    @Test
+//    void hello_regex() throws Exception {
+//        mockMvc.perform(get("/hangyeol"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(content().string("hello hangyeol"));
+//    }
 
 }
