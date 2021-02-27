@@ -1,7 +1,7 @@
-package com.example.springmvc.sample;
+package com.example.springmvc.person;
 
+import com.example.springmvc.person.domain.Person;
 import org.springframework.format.Formatter;
-import org.springframework.stereotype.Component;
 
 import java.text.ParseException;
 import java.util.Locale;

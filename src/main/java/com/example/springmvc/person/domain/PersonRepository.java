@@ -1,4 +1,4 @@
-package com.example.springmvc.sample;
+package com.example.springmvc.person.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

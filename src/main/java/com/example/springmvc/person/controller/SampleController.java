@@ -1,5 +1,6 @@
-package com.example.springmvc.sample;
+package com.example.springmvc.person.controller;
 
+import com.example.springmvc.person.domain.Person;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

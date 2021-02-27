@@ -1,4 +1,4 @@
-package com.example.springmvc.sample;
+package com.example.springmvc.person.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

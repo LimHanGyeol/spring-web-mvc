@@ -1,19 +1,14 @@
 package com.example.springmvc.config;
 
-import com.example.springmvc.config.AnotherInterceptor;
-import com.example.springmvc.config.GreetingInterceptor;
-import com.example.springmvc.sample.Person;
+import com.example.springmvc.person.domain.Person;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.http.CacheControl;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**

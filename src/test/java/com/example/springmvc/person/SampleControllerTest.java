@@ -1,5 +1,7 @@
-package com.example.springmvc.sample;
+package com.example.springmvc.person;
 
+import com.example.springmvc.person.domain.Person;
+import com.example.springmvc.person.domain.PersonRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
