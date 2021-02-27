@@ -4,13 +4,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Spring MVC 활용
- * 요청 매핑하기 HTTP Method, URI Pattern, Content-Type, Accept, Headers
+ * 요청 매핑하기 HTTP Method, URI Pattern, Content-Type, Accept, Headers, HTTP Method (HEAD, OPTIONS)
  * RequestMapping 어노테이션을 전역적인 URI 를 설정할 수 있다.
  * 전역으로 설정한 RequestMapping 에 Content-Type, Accept 를 설정할 경우 메서드에 선언된 내용으로 오버라이딩 된다. 권장하지 않는다.
+ * HTTP Method (HEAD, OPTIONS) 는 우리가 구현하지 않아도 Spring Web MVC 에서 자동으로 처리해준다.
+ * HEAD : GET 요청과 동일하지만 응답 본문을 받아오지 않고 응답 헤더만 받아온다.
+ * OPTIONS : 서버 또는 특정 리소스가 제공하는 기능을 확인할 수 있다.
  */
 @Controller
 // @RequestMapping("/hello")
@@ -35,6 +39,12 @@ public class SampleController {
             params = "name")
     @ResponseBody
     public String hello() {
+        return "hello";
+    }
+
+    @PostMapping("/hello")
+    @ResponseBody
+    public String helloPost() {
         return "hello";
     }
 
