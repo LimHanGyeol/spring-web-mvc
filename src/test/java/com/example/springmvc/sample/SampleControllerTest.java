@@ -3,6 +3,7 @@ package com.example.springmvc.sample;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -13,7 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 /**
  * Spring MVC 활용
- * 요청 매핑하기 HTTP Method, URI Pattern, Content-Type, Accept
+ * 요청 매핑하기 HTTP Method, URI Pattern, Content-Type, Accept, Headers
  */
 @WebMvcTest(SampleController.class)
 class SampleControllerTest {
@@ -25,7 +26,9 @@ class SampleControllerTest {
     void hello() throws Exception {
         mockMvc.perform(get("/hello")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .accept(MediaType.APPLICATION_JSON_VALUE))
+                .accept(MediaType.APPLICATION_JSON_VALUE)
+                .header(HttpHeaders.FROM, "localhost")
+                .param("name", "hangyeol"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("hello"));
