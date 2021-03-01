@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Spring Web Mvc
- * WebMvcConfigurer 1부 Formatter, HTTP Message Converter
+ * WebMvcConfigurer 1부 Formatter, HTTP Message Converter, SessionAttribute, Multi Form Submit
  * Spring Boot 에서는 이런 설정 클래스를 만들지 않아도 된다.
  * Formatter 를 Bean 으로 만들면 자동으로 Formatter 추가를 해준다.
  * Interceptor 의 Order 를 정해주지 않으면 선언한 순서대로 적용이 된다.

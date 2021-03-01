@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.List;
 
 /**
  * Spring Web Mvc
- * 스프링 MVC 소개, Request Form Submit
+ * 스프링 MVC 소개, Request Form Submit, SessionAttributes, SessionAttribute, Multi Form Submit
  * SessionAttributes 어노테이션을 사용하면 HttpSession 을 사용하고 값을 넣어주지 않아도,
  * 자동으로 세션에 값을 넣어준다.
  */
@@ -34,7 +35,7 @@ public class EventController {
 
     @GetMapping("/events/form/name")
     public String eventsFormName(Model model) {
-        Event event = new Event(1L);
+        Event event = new Event(2L);
         model.addAttribute("event", event);
 
         return "form-name";
@@ -66,21 +67,39 @@ public class EventController {
     @PostMapping("/events/form/limit")
     public String createFormLimit(@Valid @ModelAttribute Event event,
                                   BindingResult bindingResult,
-                                  SessionStatus sessionStatus) {
+                                  SessionStatus sessionStatus,
+                                  RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "form-limit";
         }
         sessionStatus.setComplete();
+        redirectAttributes.addAttribute("name", event.getName());
+        redirectAttributes.addAttribute("limitOfEnrollment", event.getLimitOfEnrollment());
         return "redirect:/events/list";
     }
 
-    // 원래는 database 에서 select 해와야 한다.
+    /**
+     * 원래는 database 에서 select 해와야 한다.
+     * 하지만 DB 설정을 하지 않아서 결과물 리스트를 수동으로 만들어 보여준다.
+     *
+     * RedirectAttributes 의 값은 @RequestParam 으로 받을 수 있다.
+     * 이를 ModelAttributes 로도 받을 수 있는데, 이때 조심해야 한다.
+     * SessionAttributes 에서 준 키값과 RedirectAttributes 모델을 같은 이름을 사용하면 안된다.
+     * 우리는 createFormLimit 에서 session 을 Complete 하여 비웠는데,
+     * RedirectAttributes 에서 같은 이름을 사용하면 해당 이름을 session 에서 찾는다.
+     * 그래서 에러가 난다.
+     * 이를 원활하게 사용하려면 SessionAttributes 에서 사용한 이름과 다른 이름을 부여해야 한다.
+     * @RequestParam String name,
+     * @RequestParam int limitOfEnrollment,
+     */
     @GetMapping("/events/list")
-    public String getEvents(Model model, @SessionAttribute LocalDateTime visitTime) {
+    public String getEvents(@ModelAttribute("newEvent") Event event,
+                            Model model, @SessionAttribute LocalDateTime visitTime) {
         System.out.println(visitTime);
-        Event event = new Event(1L, "spring", 10);
+        Event spring = new Event(1L, "spring", 10);
 
         List<Event> events = new ArrayList<>();
+        events.add(spring);
         events.add(event);
 
         model.addAttribute("events", events);

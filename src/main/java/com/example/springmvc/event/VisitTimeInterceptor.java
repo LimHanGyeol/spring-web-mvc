@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 
+/**
+ * Spring Web Mvc 활용
+ * SessionAttribute
+ */
 public class VisitTimeInterceptor implements HandlerInterceptor {
 
     @Override
