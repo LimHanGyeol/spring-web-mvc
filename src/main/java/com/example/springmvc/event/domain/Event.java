@@ -33,4 +33,8 @@ public class Event {
         this.name = name;
         this.limitOfEnrollment = limitOfEnrollment;
     }
+
+    public Event(int limitOfEnrollment) {
+        this.limitOfEnrollment = limitOfEnrollment;
+    }
 }

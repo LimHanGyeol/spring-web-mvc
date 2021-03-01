@@ -10,28 +10,28 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class EventExampleController {
 
-    @GetMapping("/events")
-    public String events() {
-        return "events";
-    }
-
-    @GetMapping("/events/{id}")
-    public String event(@PathVariable("id") Long id) {
-        return "events " + id;
-    }
-
-    @PostMapping(value = "/events", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String eventPost() {
-        return "event post";
-    }
-
-    @DeleteMapping("/events/{id}")
-    public String eventDelete(@PathVariable("id") Long id) {
-        return "event Delete " + id;
-    }
-
-    @PutMapping(value = "/events/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public String eventUpdate(@PathVariable("id") Long id) {
-        return "event Put " + id;
-    }
+//    @GetMapping("/events")
+//    public String events() {
+//        return "events";
+//    }
+//
+//    @GetMapping("/events/{id}")
+//    public String event(@PathVariable("id") Long id) {
+//        return "events " + id;
+//    }
+//
+//    @PostMapping(value = "/events", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public String eventPost() {
+//        return "event post";
+//    }
+//
+//    @DeleteMapping("/events/{id}")
+//    public String eventDelete(@PathVariable("id") Long id) {
+//        return "event Delete " + id;
+//    }
+//
+//    @PutMapping(value = "/events/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public String eventUpdate(@PathVariable("id") Long id) {
+//        return "event Put " + id;
+//    }
 }
