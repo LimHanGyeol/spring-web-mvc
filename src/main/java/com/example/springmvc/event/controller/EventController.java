@@ -64,6 +64,12 @@ public class EventController {
         return "form-limit";
     }
 
+    /**
+     * RedirectAttributes 로 넘긴 값들은 URI 에 노출이 된다.
+     * FlashAttributes 가 이를 막아준다.
+     * FlashAttributes 을 사용하면 세션에 값이 전달이 되어 데이터가 URI 에 노출이 되지 않는다.
+     * 그리고 임의의 객체를 저장할 수 있고, 전달한 데이터를 사용하면 삭제가 되어 일회성이라고 생각하면 된다.
+     */
     @PostMapping("/events/form/limit")
     public String createFormLimit(@Valid @ModelAttribute Event event,
                                   BindingResult bindingResult,
@@ -73,8 +79,9 @@ public class EventController {
             return "form-limit";
         }
         sessionStatus.setComplete();
-        redirectAttributes.addAttribute("name", event.getName());
-        redirectAttributes.addAttribute("limitOfEnrollment", event.getLimitOfEnrollment());
+//        redirectAttributes.addAttribute("name", event.getName());
+//        redirectAttributes.addAttribute("limitOfEnrollment", event.getLimitOfEnrollment());
+        redirectAttributes.addFlashAttribute("newEvent", event);
         return "redirect:/events/list";
     }
 
@@ -89,14 +96,20 @@ public class EventController {
      * RedirectAttributes 에서 같은 이름을 사용하면 해당 이름을 session 에서 찾는다.
      * 그래서 에러가 난다.
      * 이를 원활하게 사용하려면 SessionAttributes 에서 사용한 이름과 다른 이름을 부여해야 한다.
+     *
+     * FlashAttributes 로 보낸 데이터는 세션에 저장이 되어서,
+     * ModelAttibutes 가 아닌 Model 로도 받을 수 있다.
      * @RequestParam String name,
      * @RequestParam int limitOfEnrollment,
+     *
+     * @ModelAttribute("newEvent") Event event,
      */
     @GetMapping("/events/list")
-    public String getEvents(@ModelAttribute("newEvent") Event event,
-                            Model model, @SessionAttribute LocalDateTime visitTime) {
+    public String getEvents(Model model, @SessionAttribute LocalDateTime visitTime) {
         System.out.println(visitTime);
         Event spring = new Event(1L, "spring", 10);
+
+        Event event = (Event) model.asMap().get("newEvent");
 
         List<Event> events = new ArrayList<>();
         events.add(spring);

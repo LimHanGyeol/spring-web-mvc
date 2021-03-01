@@ -1,10 +1,13 @@
 package com.example.springmvc.event.controller;
 
+import com.example.springmvc.event.domain.Event;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDateTime;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -39,5 +42,17 @@ class EventControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(model().hasErrors());
+    }
+
+    @Test
+    @DisplayName("session에 있는 값과 flashAttributes 에 있는 값을 테스트 할 수 있다.")
+    void getEvents() throws Exception {
+        Event newEvent = new Event(1L, "Spring is Coming", 100);
+        mockMvc.perform(get("/events/list")
+                .sessionAttr("visitTime", LocalDateTime.now())
+                .flashAttr("newEvent", newEvent))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(xpath("//p").nodeCount(2)); // HTML 의 <P> 태그를 확인하여 개수가 2개 있는지 확인하는 테스트
     }
 }
