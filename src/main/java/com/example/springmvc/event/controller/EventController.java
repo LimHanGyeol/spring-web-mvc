@@ -1,10 +1,12 @@
 package com.example.springmvc.event.controller;
 
+import com.example.springmvc.event.EventValidator;
 import com.example.springmvc.event.domain.Event;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -25,13 +27,28 @@ import java.util.List;
 @SessionAttributes("event")
 public class EventController {
 
-    // private final EventService eventService;
+//     private final EventService eventService;
+//    private final EventValidator eventValidator;
 
 //    @GetMapping("/events")
 //    public String events(Model model) {
 //        model.addAttribute("events", eventService.getEvents());
 //        return "events";
 //    }
+
+    /**
+     * 모든 메서드 전에 initBinder 를 호출 한다.
+     * 정의한 타입이 스프링이 지원하지 않는 타입일 경우 커스텀 포매터를 만들 수 있다.
+     * Java 객체로 InitBinder 에 addValidator 에 추가하여 사용하거나,
+     * Component 로 Bean 등록을 하여 DI 한 후 필요한 곳에 명시적으로 사용할 수 있다.
+     * InitBinder 에 값을 주면 해당 이름의 ModelAttribute 를 바인딩 받을 때에만 작동이 된다.
+     */
+    @InitBinder("event")
+    public void initEventBinder(WebDataBinder webDataBinder) {
+        webDataBinder.setDisallowedFields("id"); // 받고 싶지 않은 필드 값을 거를 수 있음.
+        // webDataBinder.setAllowedFields("id"); // 입력 받고 싶은 필드들만 정의할 수 있다.
+         webDataBinder.addValidators(new EventValidator());
+    }
 
 //    ModelAttributes 를 전역적으로 사용하는 방식은 2가지가 있다.
 //    아래 메서드처럼 기본적으로 사용하는 방식과,
