@@ -19,10 +19,7 @@ import java.util.List;
  * RestControllerAdvice 가 있는데 이는 Controller 와 같이 ResponseBody 가 컴포짓 어노테이션으로 만들어진 것 이다.
  * 사용 시 응답 본문. ResponseBody 로 만들어져 리턴이 된다.
  */
-@ControllerAdvice(
-        assignableTypes = {EventController.class, EventApiController.class, EventRequestBodyController.class}
-
-        )
+@ControllerAdvice(assignableTypes = {EventController.class, EventApiController.class, EventRequestBodyController.class})
 public class WebMvcAdvice {
 
     /**
@@ -51,7 +48,7 @@ public class WebMvcAdvice {
         webDataBinder.addValidators(new EventValidator());
     }
 
-    //    ModelAttributes 를 전역적으로 사용하는 방식은 2가지가 있다.
+//    ModelAttributes 를 전역적으로 사용하는 방식은 2가지가 있다.
 //    아래 메서드처럼 기본적으로 사용하는 방식과,
 //    리턴타입을 리턴 하고 ModelAttribute 이름을 주는 방법이 있다.
 //    @ModelAttribute
