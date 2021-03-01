@@ -2,6 +2,7 @@ package com.example.springmvc.config;
 
 import com.example.springmvc.event.VisitTimeInterceptor;
 import com.example.springmvc.person.domain.Person;
+import org.apache.tika.Tika;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
@@ -76,5 +77,14 @@ public class WebConfig implements WebMvcConfigurer {
         UrlPathHelper urlPathHelper = new UrlPathHelper();
         urlPathHelper.setRemoveSemicolonContent(false);
         configurer.setUrlPathHelper(urlPathHelper);
+    }
+
+    /**
+     * 파일 다운로드를 할 경우 다운로드할 파일의 미디어 타입을 알아오기 위해 사용하는 API
+     * @return
+     */
+    @Bean
+    public Tika tika() {
+        return new Tika();
     }
 }
