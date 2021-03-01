@@ -2,6 +2,7 @@ package com.example.springmvc.event.domain;
 
 import lombok.*;
 
+import javax.validation.constraints.Min;
 import java.time.LocalDateTime;
 
 /**
@@ -14,6 +15,8 @@ public class Event {
 
     private Long id;
     private String name;
+
+    @Min(0)
     private int limitOfEnrollment;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;

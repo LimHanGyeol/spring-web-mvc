@@ -2,7 +2,12 @@ package com.example.springmvc.event.controller;
 
 import com.example.springmvc.event.domain.Event;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * Spring Web MVC 활용
@@ -11,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RestController
 public class EventApiController {
+
+    Logger log = LoggerFactory.getLogger(EventApiController.class);
 
     //public Event getEvent(@PathVariable long id, @MatrixVariable String name) {
     @GetMapping("/events/{id}")
@@ -37,14 +44,20 @@ public class EventApiController {
                 .build();
     }
 
+    // @RequestParam String name, @RequestParam int limitOfEnrollment
+    // 객체 필드의 타입이 맞지 않을 경우 BindingException 이 발생하는데,
+    // BindingResult 를 이용해 에러를 담고, 요청은 진행하게 할 수 있다.
+    // BindingResult 의 상위타입인 Errors 가 있지만 BindingResult 가 사용할 수 있는 인터페이스가 더 많아 BindingResult 를 사용한다.
+    // 담긴 ModelAttribute 에 Valid 를 하면 Valid 에서 걸러진 에러도 BindingResult 에 담기게 된다.
     @PostMapping("/events")
-    public Event create(@RequestParam String name,
-                        @RequestParam int limitOfEnrollment) {
-        return Event.builder()
-                .id(1L)
-                .name(name)
-                .limitOfEnrollment(limitOfEnrollment)
-                .build();
+        public Event create(@Valid @ModelAttribute Event event, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.error("------------ Error ------------");
+            bindingResult.getAllErrors().forEach(error -> {
+                log.error("{}", error);
+            });
+        }
+        return event;
     }
 
 }
