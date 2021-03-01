@@ -26,23 +26,23 @@ class EventControllerTest {
     @Test
     @DisplayName("EventForm View Test")
     void getEventForm() throws Exception {
-        mockMvc.perform(get("/events/form"))
+        mockMvc.perform(get("/events/form/name"))
                 .andDo(print())
-                .andExpect(view().name("form"))
+                .andExpect(view().name("form-name"))
                 .andExpect(model().attributeExists("event"))
                 .andExpect(request().sessionAttribute("event", notNullValue()));
     }
 
-    @Test
-    @DisplayName("유효하지 않은 데이터가 포함되어 Valid 에 걸려 BindingResult 에 Error 가 담길 경우")
-    void invalidPostEvent() throws Exception {
-        mockMvc.perform(post("/events")
-                .param("name", "spring")
-                .param("limitOfEnrollment", "5"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(model().hasErrors());
-    }
+//    @Test
+//    @DisplayName("유효하지 않은 데이터가 포함되어 Valid 에 걸려 BindingResult 에 Error 가 담길 경우")
+//    void invalidPostEvent() throws Exception {
+//        mockMvc.perform(post("/events/valid")
+//                .param("name", "spring")
+//                .param("limitOfEnrollment", "5"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(model().hasErrors());
+//    }
 
     @Test
     @DisplayName("session에 있는 값과 flashAttributes 에 있는 값을 테스트 할 수 있다.")
