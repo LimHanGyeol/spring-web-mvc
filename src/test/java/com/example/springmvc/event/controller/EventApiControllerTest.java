@@ -50,13 +50,13 @@ class EventApiControllerTest {
 
     @Test
     void getEventPost2() throws Exception {
-        mockMvc.perform(post("/events")
+        mockMvc.perform(post("/events/valid")
                 .param("name", "springboot")
                 .param("limitOfEnrollment", "-10"))
                 .andDo(print())
                 .andExpect(status().isOk());
 //                .andExpect(jsonPath("$.id").value(1))
 //                .andExpect(jsonPath("$.name").value("springboot"))
-//                .andExpect(jsonPath("$.limitOfEnrollment").value("3"));
+//                .andExpect(jsonPath("$.limitOfEnrollment").value("-10"));
     }
 }

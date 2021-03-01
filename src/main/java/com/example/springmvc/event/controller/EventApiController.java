@@ -49,7 +49,9 @@ public class EventApiController {
     // BindingResult 를 이용해 에러를 담고, 요청은 진행하게 할 수 있다.
     // BindingResult 의 상위타입인 Errors 가 있지만 BindingResult 가 사용할 수 있는 인터페이스가 더 많아 BindingResult 를 사용한다.
     // 담긴 ModelAttribute 에 Valid 를 하면 Valid 에서 걸러진 에러도 BindingResult 에 담기게 된다.
-    @PostMapping("/events")
+    // FormSubmit Error 처리를 위하여 URI 를 /events -> /events/valid 로 변경함
+//    @PostMapping("/events")
+    @PostMapping("/events/valid")
         public Event create(@Valid @ModelAttribute Event event, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             log.error("------------ Error ------------");
