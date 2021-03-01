@@ -33,6 +33,33 @@ public class EventController {
 //        return "events";
 //    }
 
+//    ModelAttributes 를 전역적으로 사용하는 방식은 2가지가 있다.
+//    아래 메서드처럼 기본적으로 사용하는 방식과,
+//    리턴타입을 리턴 하고 ModelAttribute 이름을 주는 방법이 있다.
+//    @ModelAttribute
+//    public void categories(Model model) {
+//        model.addAttribute("categories", List.of("study", "seminar", "hobby", "social"));
+//    }
+
+    @ModelAttribute("categories")
+    public List<String> categories(Model model) {
+        return List.of("study", "seminar", "hobby", "social");
+    }
+
+    /**
+     * 아래 eventsForName 을 복사 후 형식을 바꾼 메서드이다.
+     * ModelAttributes 를 사용할 경우 RequestMapping 어노테이션 부에
+     * ModelAttributes 어노테이션을 사용하면 Return 타입이 자동으로 Model 에 담기게 된다.
+     * 그러면 Model 관련된 코드를 제거할 수 있어 좀 더 깔끔한 코드 작성이 가능해진다.
+     * 그리고 ModelAttributes 어노테이션은 생략도 가능하다.
+     * 자주 사용하는 방법은 아니다.
+     */
+    @GetMapping("/events/form/name1")
+    @ModelAttribute
+    public Event eventsModel() {
+        return new Event(2L);
+    }
+
     @GetMapping("/events/form/name")
     public String eventsFormName(Model model) {
         Event event = new Event(2L);

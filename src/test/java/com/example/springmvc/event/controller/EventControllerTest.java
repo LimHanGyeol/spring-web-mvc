@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -53,6 +52,7 @@ class EventControllerTest {
                 .flashAttr("newEvent", newEvent))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andExpect(model().attributeExists("categories"))
                 .andExpect(xpath("//p").nodeCount(2)); // HTML 의 <P> 태그를 확인하여 개수가 2개 있는지 확인하는 테스트
     }
 }
