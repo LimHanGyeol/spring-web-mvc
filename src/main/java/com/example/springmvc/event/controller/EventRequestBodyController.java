@@ -3,10 +3,7 @@ package com.example.springmvc.event.controller;
 import com.example.springmvc.event.domain.Event;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -37,6 +34,11 @@ public class EventRequestBodyController {
         }
         // db save
         return ResponseEntity.ok().body(event);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> errorHandler() {
+        return ResponseEntity.badRequest().body("can't create event as ...");
     }
 
 }

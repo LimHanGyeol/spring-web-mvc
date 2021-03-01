@@ -1,5 +1,6 @@
 package com.example.springmvc.event.controller;
 
+import com.example.springmvc.event.EventException;
 import com.example.springmvc.event.EventValidator;
 import com.example.springmvc.event.domain.Event;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,18 @@ public class EventController {
 //        model.addAttribute("events", eventService.getEvents());
 //        return "events";
 //    }
+
+    /**
+     * ExceptionHandler 를 정의해 놓으면 RuntimeException 을 던져도,
+     * 가장 구체적인 에러가 매핑된다. (EventException)
+     * n 개 이상을 받을 수 있지만 그럴 경우 상위 타입으로 받아야 한다.
+     * 이 경우 EventException 의 상위 타입인 RuntimeException 을 설정했다.
+     */
+    @ExceptionHandler({EventException.class, RuntimeException.class})
+    public String eventErrorHandler(RuntimeException exception, Model model) {
+        model.addAttribute("message", "event error");
+        return "error";
+    }
 
     /**
      * 모든 메서드 전에 initBinder 를 호출 한다.
@@ -79,10 +92,11 @@ public class EventController {
 
     @GetMapping("/events/form/name")
     public String eventsFormName(Model model) {
-        Event event = new Event(2L);
-        model.addAttribute("event", event);
+        throw new EventException();
+//        Event event = new Event(2L);
+//        model.addAttribute("event", event);
 
-        return "form-name";
+//        return "form-name";
     }
 
     /**
