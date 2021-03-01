@@ -1,5 +1,6 @@
 package com.example.springmvc.config;
 
+import com.example.springmvc.event.VisitTimeInterceptor;
 import com.example.springmvc.person.domain.Person;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +36,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new AnotherInterceptor())
                 .addPathPatterns("/hello/**")
                 .order(-1);
+        registry.addInterceptor(new VisitTimeInterceptor());
     }
 
     @Override

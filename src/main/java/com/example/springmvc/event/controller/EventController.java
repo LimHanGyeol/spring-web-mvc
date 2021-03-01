@@ -5,14 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +76,8 @@ public class EventController {
 
     // 원래는 database 에서 select 해와야 한다.
     @GetMapping("/events/list")
-    public String getEvents(Model model) {
+    public String getEvents(Model model, @SessionAttribute LocalDateTime visitTime) {
+        System.out.println(visitTime);
         Event event = new Event(1L, "spring", 10);
 
         List<Event> events = new ArrayList<>();
