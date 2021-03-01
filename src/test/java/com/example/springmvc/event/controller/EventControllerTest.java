@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -25,7 +26,8 @@ class EventControllerTest {
         mockMvc.perform(get("/events/form"))
                 .andDo(print())
                 .andExpect(view().name("form"))
-                .andExpect(model().attributeExists("event"));
+                .andExpect(model().attributeExists("event"))
+                .andExpect(request().sessionAttribute("event", notNullValue()));
     }
 
     @Test

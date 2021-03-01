@@ -8,7 +8,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +19,12 @@ import java.util.List;
 /**
  * Spring Web Mvc
  * 스프링 MVC 소개, Request Form Submit
+ * SessionAttributes 어노테이션을 사용하면 HttpSession 을 사용하고 값을 넣어주지 않아도,
+ * 자동으로 세션에 값을 넣어준다.
  */
 @RequiredArgsConstructor
 @Controller
+@SessionAttributes("event")
 public class EventController {
 
     // private final EventService eventService;
@@ -30,26 +36,27 @@ public class EventController {
 //    }
 
     @GetMapping("/events/form")
-    public String eventForm(Model model) {
-        model.addAttribute("event", new Event(1L, "spring", 50));
+    public String eventForm(Model model, HttpSession httpSession) {
+        Event event = new Event(1L, "spring", 50);
+        model.addAttribute("event", event);
+
         return "form";
     }
 
     @PostMapping("/events")
     public String create(@Valid @ModelAttribute Event event,
                          BindingResult bindingResult,
-                         Model model) {
+                         SessionStatus sessionStatus) {
         System.out.println(event.toString());
         if (bindingResult.hasErrors()) {
             return "form";
         }
-
+        sessionStatus.setComplete();
         // database save 를 가정하여 Event 를 Mocking 한다.
         // 해당 메서드에서 list 를 get 해오는 작업의 코드를 작성하면,
         // 새로고침할 경우 요청을 다시 보낼 것이냐는 경고성 alert 를 보여준다.
         // 이런 경우를 대비하여 "Post Redirect Get" 이라는 기법을 사용한다.
         // Post 요청을 보내면 redirect 로 list 로 보내고, list 에서 미리 생성한 목록을 출력한다.
-
         return "redirect:/events/list";
     }
 
