@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
  */
 @ToString
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor
 public class Event {
 
     private Long id;
@@ -26,6 +27,10 @@ public class Event {
     private LocalDateTime startDateTime;
 
     private LocalDateTime endDateTime;
+
+    public Event(Long id) {
+        this.id = id;
+    }
 
     @Builder
     private Event(Long id, String name, int limitOfEnrollment, LocalDateTime startDateTime, LocalDateTime endDateTime) {
