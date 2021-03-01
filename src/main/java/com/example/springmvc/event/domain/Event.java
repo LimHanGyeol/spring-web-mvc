@@ -12,16 +12,25 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Event {
 
+    private Long id;
     private String name;
     private int limitOfEnrollment;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
 
     @Builder
-    private Event(String name, int limitOfEnrollment, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+    private Event(Long id, String name, int limitOfEnrollment, LocalDateTime startDateTime, LocalDateTime endDateTime) {
+        this.id = id;
         this.name = name;
         this.limitOfEnrollment = limitOfEnrollment;
         this.startDateTime = startDateTime;
         this.endDateTime = endDateTime;
+    }
+
+    @Builder
+    private Event(Long id, String name, int limitOfEnrollment) {
+        this.id = id;
+        this.name = name;
+        this.limitOfEnrollment = limitOfEnrollment;
     }
 }
