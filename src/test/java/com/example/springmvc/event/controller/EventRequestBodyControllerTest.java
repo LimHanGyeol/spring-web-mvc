@@ -35,11 +35,28 @@ class EventRequestBodyControllerTest {
         // when, then
         mockMvc.perform(post("/api/events")
                 .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
                 .content(requestBody))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value("spring"))
                 .andExpect(jsonPath("$.limitOfEnrollment").value("5"));
+    }
+
+    @Test
+    @DisplayName("Invalid RequestBody Test")
+    void invalid_create() throws Exception {
+        // given
+        Event event = new Event(1L, "spring", -5);
+        String requestBody = objectMapper.writeValueAsString(event);
+
+        // when, then
+        mockMvc.perform(post("/api/events")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(requestBody))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
     }
 }

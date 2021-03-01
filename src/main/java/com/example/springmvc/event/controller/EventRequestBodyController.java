@@ -1,6 +1,7 @@
 package com.example.springmvc.event.controller;
 
 import com.example.springmvc.event.domain.Event;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,12 +31,12 @@ public class EventRequestBodyController {
      * return request.getBody();
      */
     @PostMapping("")
-    public Event create(@Valid @RequestBody Event event, BindingResult bindingResult) {
+    public ResponseEntity<Event> create(@Valid @RequestBody Event event, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            bindingResult.getAllErrors().forEach(System.out::println);
+            return ResponseEntity.badRequest().build();
         }
         // db save
-        return event;
+        return ResponseEntity.ok().body(event);
     }
 
 }
